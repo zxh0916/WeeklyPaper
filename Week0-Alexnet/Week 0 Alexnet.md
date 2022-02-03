@@ -5,7 +5,7 @@
 -   本地（做了标记）[ImageNet Classification with Deep Convolutional Neural Networks](../papers/Alexnet.pdf)
 -   原地址[ImageNet Classification with Deep Convolutional Neural Networks](https://proceedings.neurips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)
 
-下期预告：[Week 1 VGG](../Week 1 VGG/Week 1 VGG.md)
+下期预告：[Week 1 VGG](../Week1-VGG/Week 1 VGG.md)
 
 
 

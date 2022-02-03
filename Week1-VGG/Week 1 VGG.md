@@ -5,7 +5,7 @@
 -   本地（做了标记）[Very Deep Convolutional Networks For Large-Scale Image Recognition](../papers/VGG.pdf)
 -   原地址[Very Deep Convolutional Networks For Large-Scale Image Recognition](https://arxiv.org/pdf/1409.1556.pdf)
 
-上期回顾：[Week 0 AlexNet](../Week 0 Alexnet\Week 0 Alexnet.md)
+上期回顾：[Week 0 AlexNet](../Week0-Alexnet\Week 0 Alexnet.md)
 
 
 
@@ -72,6 +72,10 @@ Karen Simonyan & Andrew Zisserman
 ​		三个全连接层：flattened卷积层输出->4096，4096->4096，4096->1000（1000类softmax）。
 
 ​		全连接层的设置对所有配置均相同。
+
+#### Dropout
+
+​		p=0.5，应用于前两个全连接层。
 
 #### 	激活函数
 
@@ -252,21 +256,21 @@ Karen Simonyan & Andrew Zisserman
 
 ## 总结
 
-### 	贡献
+### 		贡献
 
 ​		展现了在传统CNN架构的基础上仅仅增加深度就能取得SOTA的性能，摒弃了LRN，详细地对比、评估了dense evaluation和multi-crop，详细地对比、评估了训练和测试图片的尺寸选取策略对网络性能的影响，用训练好的浅模型初始化深模型，增加训练稳定性。
 
-### 	动机
+### 		动机
 
 ​		看看传统CNN能做多深
 
-### 	结构
+### 		结构
 
 ​		VGG块+3个全连接
 
 ​		VGG块：3x3conv -> ... -> 1x1 / 3x3conv -> 2x2maxpool
 
-### 	预处理
+### 		预处理
 
 ​		训练：和AlexNet一样，随机裁剪，随机翻转，对RGB用PCA提取主成分后随机扰动。
 
