@@ -7,6 +7,8 @@
 
 上期回顾：[Week 0 AlexNet](../Week0-Alexnet\Week 0 Alexnet.md)
 
+下期预告：[Week 2 GoogLeNet](../Week2-GoogLeNet/Week 2 GoogLeNet.md)
+
 
 
 ILCR 2015
@@ -275,3 +277,4 @@ Karen Simonyan & Andrew Zisserman
 ​		训练：和AlexNet一样，随机裁剪，随机翻转，对RGB用PCA提取主成分后随机扰动。
 
 ​		预测：dense evaluation或者multi-crop，然后随机翻转。
+
