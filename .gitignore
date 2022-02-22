@@ -3,3 +3,6 @@ d2l-zh/
 data/
 *.pth
 */runs/
+*.csv
+.vscode/
+*/__pycache__/
