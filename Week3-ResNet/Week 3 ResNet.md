@@ -7,7 +7,7 @@
 
 上期回顾：[Week 2 GoogLeNet](../Week2-GoogLeNet/Week 2 GoogLeNet.md)
 
-
+下期预告：[Week 4 DenseNet](..\Week4-DenseNet\Week 4 DenseNet.md)
 
 **Kaiming He**, Xiangyu Zhang, Shaoqing Ren, **Jian Sun**
 
