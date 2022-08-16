@@ -49,7 +49,7 @@
 
 ## 3 DenseNets
 
-​		约定网络的第 $l$ 层用 $H_l(\dotproduct)$ 表示，是BN、ReLU和卷积层的复合，输入特征图为 $\mathbf{x}_{l-1}$。
+​		约定网络的第 $l$ 层用 $H_l(\cdot)$ 表示，是BN、ReLU和卷积层的复合，输入特征图为 $\mathbf{x}_{l-1}$。
 
 ##### ResNets.
 
@@ -61,7 +61,7 @@
 
 ##### Composite function.
 
-​		和之前常用的**3\*3Conv$\longrightarrow$BatchNorm$\longrightarrow$ReLU**不同，这里的基本单元使用了和ResNet-v2相同的"pre-activation"，即$H_l(\dotproduct)=$**BatchNorm$\longrightarrow$ReLU$\longrightarrow$3\*3Conv**。
+​		和之前常用的**3\*3Conv$\longrightarrow$BatchNorm$\longrightarrow$ReLU**不同，这里的基本单元使用了和ResNet-v2相同的"pre-activation"，即$H_l(\cdot)=$**BatchNorm$\longrightarrow$ReLU$\longrightarrow$3\*3Conv**。
 
 ##### Pooling layers.
 
@@ -77,7 +77,7 @@
 
 ##### Bottleneck layers.
 
-​		尽管增长率 $k$ 已经被设置得较小，但对于较深的DenseNet来说，位于深度较大的部分的卷积层的输入特征图通道数还是较为庞大。正如ResNet和GoogLeNet都曾使用过的，1\*1卷积层可以有效地减少计算量并降低通道数，所以作者额外地将原始的基本结构$H_l(\dotproduct)=$**BN$\longrightarrow$ReLU$\longrightarrow$3\*3Conv**修改为$H_l(\dotproduct)=$**BN$\longrightarrow$ReLU$\longrightarrow$1\*1Conv$\longrightarrow$BN$\longrightarrow$ReLU$\longrightarrow$3\*3Conv**，其中1\*1卷积层的输出通道数恒为 $4k$。
+​		尽管增长率 $k$ 已经被设置得较小，但对于较深的DenseNet来说，位于深度较大的部分的卷积层的输入特征图通道数还是较为庞大。正如ResNet和GoogLeNet都曾使用过的，1\*1卷积层可以有效地减少计算量并降低通道数，所以作者额外地将原始的基本结构$H_l(\cdot)=$**BN$\longrightarrow$ReLU$\longrightarrow$3\*3Conv**修改为$H_l(\cdot)=$**BN$\longrightarrow$ReLU$\longrightarrow$1\*1Conv$\longrightarrow$BN$\longrightarrow$ReLU$\longrightarrow$3\*3Conv**，其中1\*1卷积层的输出通道数恒为 $4k$。
 
 ​		以瓶颈结构替换上文基本结构的网络记为DenseNet-B。
 

@@ -1,0 +1,97 @@
+{
+version: Version0
+N: 8
+patch_size: 8
+emb_dim: 128
+hidden_dim: 256
+num_heads: 4
+dropout: 0.0
+max_length: 200
+image_size: 32
+num_channels: 3
+num_patches: 16
+num_classes: 10
+batch_size: 512
+lr: 0.1
+weight_decay: 0
+warmup_steps: 750
+num_epochs: 50
+num_workers: 8
+}
+{
+version: Version1
+N: 8
+patch_size: 8
+emb_dim: 256
+hidden_dim: 512
+num_heads: 8
+dropout: 0.05
+max_length: 200
+image_size: 32
+num_channels: 3
+num_patches: 16
+num_classes: 10
+batch_size: 256
+lr: 0.1
+weight_decay: 0.0005
+warmup_steps: 750
+num_epochs: 50
+num_workers: 8
+}
+{
+version: Version2
+N: 32
+patch_size: 8
+emb_dim: 64
+hidden_dim: 128
+num_heads: 4
+dropout: 0.05
+image_size: 32
+num_channels: 3
+num_patches: 16
+num_classes: 10
+batch_size: 256
+lr: 0.1
+weight_decay: 0.0005
+warmup_steps: 750
+num_epochs: 100
+num_workers: 8
+}
+{
+version: Version3
+N: 4
+patch_size: 8
+emb_dim: 512
+hidden_dim: 1024
+num_heads: 8
+dropout: 0.05
+image_size: 32
+num_channels: 3
+num_patches: 16
+num_classes: 10
+batch_size: 256
+lr: 0.1
+weight_decay: 0.0005
+warmup_steps: 750
+num_epochs: 75
+num_workers: 8
+}
+{
+version: Version4
+N: 8
+patch_size: 4
+emb_dim: 128
+hidden_dim: 256
+num_heads: 4
+dropout: 0.05
+image_size: 32
+num_channels: 3
+num_patches: 64
+num_classes: 10
+batch_size: 256
+lr: 0.1
+weight_decay: 0.0005
+warmup_steps: 1000
+num_epochs: 75
+num_workers: 8
+}

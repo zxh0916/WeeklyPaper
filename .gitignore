@@ -1,8 +1,16 @@
 */.ipynb_checkpoints/
+*/.virtual_documents/
+.ipynb_checkpoints/
+.virtual_documents/
 d2l-zh/
 data/
 *.pth
 */runs/
+*/models/
+*/outputs/
 *.csv
 .vscode/
 */__pycache__/
+LAB/
+FPGA/
+hw/
