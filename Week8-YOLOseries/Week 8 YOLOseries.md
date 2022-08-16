@@ -2,7 +2,7 @@
 
 ## 前言
 
-​		目标检测是深度学习应用于计算机视觉领域最成功的方向之一。目标检测算法可以分为双阶段检测算法和单阶段检测算法。双阶段检测算法先获取各类别通用的候选框以覆盖图像中可能存在的物体，再对候选框进行修正从而得到预测框并进行类别预测；而单阶段检测算法直接输出预测框与各个预测框对应的类别。
+​		目标检测是深度学习应用于计算机视觉领域最成功的方向之一。目标检测算法可以分为双阶段检测算法和单阶段检测算法。双阶段检测算法先获取各类别通用的候选框以覆盖图像中可能存在的物体，再对候选框进行修正从而得到预测框并进行类别预测；而单阶段检测算法**直接输出预测框与各个预测框对应的类别。**
 
 ​		如果读者已经学习过双阶段检测算法，那么大致可以从如下两个角度来理解双阶段算法和单阶段算法的区别：
 
@@ -17,11 +17,11 @@
 
 ​		YOLO系列算法作为知名度最高，应用最广的单阶段检测算法，其仅用一个阶段完成目标检测任务的思路绝对是值得我们学习的。下面，我们先总结YOLO的核心思路，同时也是其快速且有效的原因：***YOLO按Backbone输出的特征图尺寸将图片分为许多个等大的正方形区域，特征图上各个位置只负责预测中心点落在其对应方形区域之内的物体。***
 
-![detection-yolo核心思想](../pictures/detection-yolo核心思想.jpg)
+![YOLO系列的核心思想](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolo%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3.jpg)
 
-​		YOLO系列的作者在YOLOv1开始使用这个思路。笔者是这么理解这个做法的：特征图上各个值的感受野的中心应当正好落在其在原图上对应的方形区域内。在特征图的感受野大小尚未覆盖整张图片时，仅让物体边界框中心点所在位置对应的特征图的像素负责预测该物体，可以在最大程度上保证较大的物体也能被包含在感受野之内。若特征图上其他位置也参与预测该物体，则在感受野不够大或物体较大时，则有更高的概率物体会超出感受野范围，后果就是模型没有办法精准的预测物体的边界框甚至类别。
+​		YOLO系列的作者在YOLOv1开始使用这个思路。笔者是这么理解这个做法的：特征图上各个值的感受野的中心应当正好落在其在原图上对应的方形区域内。在特征图的感受野大小尚未覆盖整张图片时，**仅让物体边界框中心点所在位置对应的特征图的像素负责预测该物体**，可以在最大程度上保证较大的物体也能被包含在感受野之内。若特征图上其他位置也参与预测该物体，则在感受野不够大或物体较大时，则有更高的概率物体会超出感受野范围，后果就是模型没有办法精准的预测物体的边界框甚至类别。
 
-​		读者看到这里一定心生疑问：谈了半天到底什么是“负责”预测某物体？别急，我们将在具体结构的讲解中说明不同版本的YOLO算法是如何将特征图上的值和原图中的某个物体关联起来的。
+​		读者看到这里一定心生疑问：谈了半天**到底什么是“负责”预测某物体？**别急，我们将在具体结构的讲解中说明不同版本的YOLO算法是如何**将特征图上的值和原图中的某个物体关联起来**的。
 
 ## YOLO v1——类别无关的预测框
 
@@ -29,9 +29,9 @@
 
 ​		YOLOv1的网络结构如下图所示。
 
-![YOLOv1 网络架构](../pictures/detection-yolov1-archi.jpg)
+![YOLOv1 网络架构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov1-archi.jpg)
 
-![YOLOv1 推理流程](../pictures/detection-yolov1-infer.jpg)
+![YOLOv1 推理流程](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov1-infer.jpg)
 
 ### 二、模型输出
 
@@ -39,11 +39,11 @@
 
 ​		YOLOv1之所以能将传统目标检测的两个阶段合二为一，与其解读网络输出的方式密切相关。我们提取出这张特征图某个位置上全部通道的30个数值，看看在YOLOv1的定义下，这30个数值如何完成图片中物体的分类和边界框的回归。
 
-![YOLOv1对网络输出的解释](../pictures/detection-yolov1-output.jpg)
+![YOLOv1对网络输出的解释](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov1-output.jpg)
 
 ​		我们先来说明YOLOv1解码网络边界框回归输出的方式，如下图：
 
-![预测框解码方式](../pictures/detection-yolov1-box.jpg)
+![预测框解码方式](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov1-box.jpg)
 
 ​		其中$t_*$为网络的输出，$p_*$为解码后的预测框的cxcywh坐标。至于各个预测框的物体评分(obj)，我们认为其输出的是该预测框与其想要预测的物体的真实边界框的IOU。
 
@@ -57,23 +57,23 @@
 
 1.   $(i, j)$处输出的分类输出在该真实边界框对应类别上的类别概率应当尽可能高；
 2.   该真实边界框和位置$(i, j)$上的第$k$个预测框应当尽可能重合；
-3.   位置$(i, j)$上的第$k$个预测框的物体评分（$obj_k$）应当与该真实边界框和预测框的IOU尽可能接近。
+3.   位置$(i, j)$上的第$k$个预测框的**物体评分（$obj_k$）应当与该真实边界框和预测框的IOU尽可能接近。**
 
 ​		由此，我们可以写出YOLOv1的损失函数：
 
-![YOLOv1的损失函数](../pictures/detection-yolov1-loss.jpg)
+![YOLOv1的损失函数](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov1-loss.jpg)
 
 ​		其中，$\mathbb {1}_{i}^{obj}$代表下标为$i$的方形区域内是否包含了某物体的真实边界框的中心点，$\mathbb {1}_{ij}^{obj}$代表下标为$i$的方形区域内的第$j$个预测框是否与某真实边界框相匹配。由上式可以看出，对于物体评分，无论某个预测框是否与一个真实边界框相匹配，其对应的物体评分都参与物体评分损失的计算。但对于预测框坐标来说，仅**与真实边界框相匹配的预测框**的四个坐标才参与回归损失的计算。相似的，仅**包含了某真实边界框中心点的方形区域**的分类输出才参与类别损失的计算。
 
 ​		由上文的匹配策略可知，真实边界框和预测框是一一对应的，因此在物体评分obj的优化中，绝大部分样本都为负样本，为了避免负样本主导了物体评分损失的梯度，导致网络将所有预测框的物体评分都压低至0，作者在物体评分负样本项前添加了一小于1的增益$\lambda_{noobj}=0.5$来平衡正负样本的影响。
 
-​		值得一提的是，相比于用物体评分直接预测该预测框是否负责预测某物体（第三行$\hat{C_i}=1$，第四行$\hat{C_i}=0$），这样调整优化目标使得网络试图预测其输出的预测框和真实边界框的IOU，虽然会让网络在预测框回归上表现较好之后才开始提升置信度，但却能让网络学会评估自己输出的预测框的质量，而非简单地判断此区域是否包含了某物体的中心点。
+​		值得一提的是，相比于用物体评分直接预测该预测框是否负责预测某物体（第三行$\hat{C_i}=1$，第四行$\hat{C_i}=0$），这样调整优化目标**使得网络试图预测其输出的预测框和真实边界框的IOU**，虽然会让网络在预测框回归上表现较好之后才开始提升置信度，但却能让网络学会评估自己输出的预测框的质量，而非简单地判断此区域是否包含了某物体的中心点。
 
 ### 四、推理流程
 
 ​		给定一张图片，网络完成前向传播后，将每个位置输出的概率密度最高值对应的类别当做预测框的类别，**将概率密度最高值与$B$个物体评分相乘之后当做预测框的置信度**，最后将这$S\times S\times B$个预测框送入NMS消除冗余后输出。
 
-![YOLOv1推理流程](../pictures/detection-yolov1-obj,cls.reg.jpg)
+![YOLOv1推理流程](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov1-obj,cls.reg.jpg)
 
 ​		从推理流程可以看出，这样设置网络输出的一大弊端就是网络无法预测中心点在同一个方形区域内的两个不同类别的物体。
 
@@ -85,9 +85,9 @@
 
 1.   在网络中间加入了批归一化层(Batch Normalization)以加速收敛；
 2.   抛弃了YOLOv1的全连接层，从Neck的输出到Head的输出之间的通道维度的变化使用1x1卷积来实现。这一方面带来了更小的参数数量，另一方面导致了有限的感受野；
-3.   引入了Focus结构作为Neck以提升在小目标上的边界框预测质量；具体来说，这个模块以Backbone的倒数第二个阶段的特征图（下采样率为最后一个阶段的二分之一）为输入，逐通道将其分为数个2x2的小方格后，将每个小方格中左上、右上、左下和右下的值分别在宽高上拼接起来之后再在通道维拼接起来，形成一个宽高为原来一半，但通道数是原来的四倍的一个特征图。
+3.   引入了Focus结构作为Neck以提升在小目标上的边界框预测质量；具体来说，这个模块以Backbone的倒数第二个阶段的特征图（下采样率为最后一个阶段的二分之一）为输入，逐通道将其分为数个2x2的小方格后，将每个小方格中左上、右上、左下和右下的值分别**在宽高上拼接起来**之后再**在通道维拼接起来**，形成一个宽高为原来一半，但通道数是原来的四倍的一个特征图。
 
-![Focus结构](../pictures/detection-focus.jpg)
+![Focus结构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-focus.jpg)
 
 代码实现如下：
 
@@ -101,17 +101,17 @@ class Focus(nn.Module):
                          dim=1)
 ```
 
-​		随后，将这个特征图和Backbone最后一个阶段输出的特征图在通道维拼接后，当做Head的输入进行预测。这样做能够使Head在进行预测时同时获取到语义信息较为丰富的最后一层特征和几何信息相对丰富的倒数第二层特征，对于网络预测较小尺寸的物体有所帮助。
+​		随后，**将这个特征图和Backbone最后一个阶段输出的特征图在通道维拼接后，当做Head的输入进行预测。**这样做能够使Head在进行预测时同时获取到语义信息较为丰富的最后一层特征和几何信息相对丰富的倒数第二层特征，对于网络预测较小尺寸的物体有所帮助。
 
 ### 二、模型输出
 
-​		与YOLOv1为每个方形区域预测类别不同，YOLOv2对每个预测框都单独预测类别，这使得YOLOv2可以预测中心点距离较近的异类物体。仍以$S$代表特征图高宽，$B$代表单个区域上的预测框个数，$C$代表数据集物体类别总数，则YOLOv2输出的特征图的通道数为$B\times (5+C)$(图源https://blog.csdn.net/litt1e/article/details/88852745)：
+​		与YOLOv1为每个方形区域预测类别不同，YOLOv2**对每个预测框都单独预测类别**，这使得YOLOv2可以预测中心点距离较近的异类物体。仍以$S$代表特征图高宽，$B$代表单个区域上的预测框个数，$C$代表数据集物体类别总数，则YOLOv2输出的特征图的通道数为$B\times (5+C)$(图源https://blog.csdn.net/litt1e/article/details/88852745)：
 
-![YOLOv2对网络输出的解释](../pictures/detection-yolov2-output.jpg)
+![YOLOv2对网络输出的解释](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov2-output.jpg)
 
 ​		YOLOv2在模型输出上与YOLOv1的另一个不同点是其使用了在数据及上聚类而来的先验框来帮助预测物体的边界框。具体来说，作者将数据集中所有真实边界框的高宽收集起来后，进行了簇数$k=5$，距离度量$d(\mathrm{box_1}, \mathrm{box_2})=1-\mathrm{IOU}(\mathrm{box_1}, \mathrm{box_2})$的K-means聚类算法，最后选用5个聚类中心的宽高作为5个先验框，并按下图利用网络输出完成对先验框的修正（$\mathrm b_*$代表预测框坐标，$\mathrm p_*$代表先验框宽高）：
 
-![预测框解码方式](../pictures/detection-yolov2-box.jpg)
+![预测框解码方式](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov2-box.jpg)
 
 ​		代码实现如下：
 
@@ -127,7 +127,7 @@ def refine_box(box_cxcywh, shift, downsample_rate=32):
 
 ​		值得注意的一点是，如果我们看原文中的消融实验部分，可以看到"Anchor Box"一栏是没有被勾选的。
 
-![消融实验](../pictures/detection-yolov2-ablation.jpg)
+![消融实验](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov2-ablation.jpg)
 
 ​		但通过上文所述的YOLOv2的预测框解码方式可以看出，若网络输出$t_x=t_y=0$，则预测框的中心点就位于其所在方形区域的正中心，因此我们也可以将这些先验框看做是预先配置在每个方形区域中间的"锚框"。
 
@@ -155,21 +155,21 @@ def refine_box(box_cxcywh, shift, downsample_rate=32):
 
 ​		YOLOv3的网络结构如下图所示。图源：https://blog.csdn.net/leviopku/article/details/82660381
 
-![YOLOv3 网络架构](../pictures/detection-yolov3-archi.jpg)
+![YOLOv3 网络架构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov3-archi.jpg)
 
 ​		YOLOv2虽然在YOLOv1的基础上做了几点改动，但总体上网络结构仍与图片分类所用的CNN类似。但YOLOv3的网络结构相比于前两个版本来说更加复杂，下面我们分别从Backbone、Neck和Head三个部分分别阐述网络架构的升级点。
 
 1.   Backbone方面，YOLOv3采用了ResNet所提出的残差结构，这使得网络能够堆叠更多的卷积层而无需担心模型退化的问题。
-2.   Neck方面，YOLOv3采用了http://arxiv.org/abs/1612.03144所提出的特征金字塔(Feature Pyramid Network, FPN)结构，这种结构将网络深层语义信息较为丰富的特征图与浅层空间信息较为完整的特征图进行融合。通过将丰富的语义信息自顶向下地带回较早阶段的特征图，这样的结构使得模型能够在精确预测不同大小的物体边界框的同时不损失分类精度。
+2.   Neck方面，YOLOv3采用了http://arxiv.org/abs/1612.03144所提出的特征金字塔(Feature Pyramid Network, FPN)结构，这种结构将网络深层语义信息较为丰富的特征图与浅层空间信息较为完整的特征图进行融合。**通过将丰富的语义信息自顶向下地带回较早阶段的特征图，这样的结构使得模型能够在精确预测不同大小的物体边界框的同时不损失分类精度。**
 3.   Head方面，不同于前两个版本，由于YOLOv3的Neck输出三张不同大小的特征图，因此需要有三个参数各不相同的Head在三个尺寸的特征图上分别进行检测。
 
 ### 二、模型输出
 
-​		YOLOv3与YOLOv2定义模型输出的方式极为相似，通道数都为$B\times(5+C)$。唯一的不同点是，YOLOv3的前向传播得到的是三张不同大小的特征图，尺寸较大的特征图由于元素较多，因此对原图的方形区域划分也较为精细，再加上较大的特征图本就保留了较多空间几何信息，因此被用来检测尺寸较小的物体；同理，中等尺寸的特征图被用来检测中等大小的物体，较小的特征图被用来检测尺寸较大的物体。
+​		YOLOv3与YOLOv2定义模型输出的方式极为相似，通道数都为$B\times(5+C)$。唯一的不同点是，**YOLOv3的前向传播得到的是三张不同大小的特征图**，尺寸较大的特征图由于元素较多，因此对原图的方形区域划分也较为精细，再加上较大的特征图本就保留了较多空间几何信息，因此被用来检测尺寸较小的物体；同理，中等尺寸的特征图被用来检测中等大小的物体，较小的特征图被用来检测尺寸较大的物体。
 
-​		YOLOv3和YOLOv2相同，都使用预先在数据集上聚类得到的簇中心点作为先验框，但YOLOv3中使用了9个先验框，而不是YOLOv2中的5个。三个较小的先验框被分给较大的特征图，三个中等大小的先验框被分配给中等大小的特征图，尺寸较小的特征图则以三个最大的先验框为基础进行预测。因此，YOLOv3中每个检测头Head的$B=3$。
+​		YOLOv3和YOLOv2相同，都使用预先在数据集上聚类得到的簇中心点作为先验框，但YOLOv3中使用了9个先验框，而不是YOLOv2中的5个。**三个较小的先验框被分给较大的特征图，三个中等大小的先验框被分配给中等大小的特征图，尺寸较小的特征图则以三个最大的先验框为基础进行预测。**因此，YOLOv3中每个检测头Head的$B=3$。
 
-![特征图尺寸和先验框大小的关系](../pictures/detection-yolov3-fmap-and-prior.jpg)
+![特征图尺寸和先验框大小的关系](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov3-fmap-and-prior.jpg)
 
 ### 三、模型训练
 
@@ -196,15 +196,15 @@ def refine_box(box_cxcywh, shift, downsample_rate=32):
 
 ​		YOLOv4的网络结构如下图所示。
 
-![YOLOv4 网络架构](../pictures/detection-yolov4-archi.jpg)
+![YOLOv4 网络架构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov4-archi.jpg)
 
 1.   Backbone方面，YOLOv4加入了CSP结构，在不减小模型容量的前提下减小了模型的参数数量和计算复杂度；激活函数由Leaky ReLU替换为Mish，采用DropBlock作为正则化方法，略微提高了模型精度；
 
-![CSP结构](../pictures/detection-yolov4-CSPblock.jpg)
+![CSP结构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov4-CSPblock.jpg)
 
-![Dropblock](../pictures/detection-yolov4-dropblock.jpg)
+![Dropblock](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov4-dropblock.jpg)
 
-2.   Neck方面，一方面使用了空间金字塔池化(Spatial Pyramid Pooling, SPP)结构来扩大感受野，另一方面采用了http://arxiv.org/abs/1803.01534中提出的PAN结构，又将浅层较为丰富的几何信息传递给深层，进一步增强了网络输出的预测框的精确度。SPP代码如下：
+2.   Neck方面，一方面使用了空间金字塔池化(Spatial Pyramid Pooling, SPP)结构来扩大感受野，另一方面采用了http://arxiv.org/abs/1803.01534中提出的PAN结构，又**将浅层较为丰富的几何信息传递给深层，进一步增强了网络输出的预测框的精确度。**SPP代码如下：
 
 ```python
 class SPP(nn.Module):
@@ -225,11 +225,11 @@ class SPP(nn.Module):
 
 ### 三、模型训练
 
-​		将预测框的损失函数替换为了CIOU_Loss，详见https://zhuanlan.zhihu.com/p/94799295。
+​		将预测框的损失函数替换为了CIOU_Loss。各类IOU_Loss的讲解详见https://zhuanlan.zhihu.com/p/94799295。
 
 ### 四、总结
 
-​		作者将YOLOv4相较于YOLOv3新增的trick分为两大类：免费包(Bag of Freebies, BoF)，指仅增加训练成本，不增加推理成本却能提升模型性能的trick；特价包(Bag of Specials, BoS)，指仅小幅度增加推理成本，却能大幅提升模型性能的trick。
+​		YOLOv4并非前三个版本的原作者所作，并且通常在很长一段时间内被认为是简单的将tricks堆砌起来的产物。作者将YOLOv4相较于YOLOv3新增的trick分为两大类：免费包(Bag of Freebies, BoF)，指仅增加训练成本，不增加推理成本却能提升模型性能的trick；特价包(Bag of Specials, BoS)，指仅小幅度增加推理成本，却能大幅提升模型性能的trick。
 
 | BoF                            | 链接                                                         |
 | ------------------------------ | ------------------------------------------------------------ |
@@ -257,19 +257,19 @@ class SPP(nn.Module):
 
 ​		YOLOv5网络结构图：
 
-![YOLOv5 网络架构](../pictures/detection-yolov5-archi.jpg)
+![YOLOv5 网络架构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov5-archi.jpg)
 
 ​		作为目前最方便应用的目标检测算法，YOLOv5相对于v4的改进较少，详见这篇文章：https://blog.csdn.net/nan355655600/article/details/107852353
 
-## 总结
+## YOLO算法总结
 
 ​		YOLO系列作为现阶段知名度最高，应用最广的目标检测算法，具有思路简单、结构清晰的特点，每一代相对于上一代的改进点都有明确的动机。笔者总结了一下各代相对于上一代的改进点，供读者参考。
 
-![增量式学习YOLO](../pictures/detection-yolo-increment.jpg)
+![增量式学习YOLO](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolo-increment.jpg)
 
 ## 自己动手实现一个简单的YOLO算法！
 
-​		在这部分中，我们动手实现一个类似YOLOv4的简化版YOLO算法，完成在Pascal VOC数据集上的目标检测任务。
+​		笔者同样作为一个初学者在学习YOLO系列算法时也遇到了一些坎坷和困惑，其中绝大部分的困惑都由论文的描述无法为实现算法提供精确的指导而造成。在这部分中，我们动手实现一个类似YOLOv4的简化版YOLO算法，完成在Pascal VOC数据集上的目标检测任务，以求用代码来帮助各位看官更细节地理解算法。
 
 ### 导入所需的包
 
@@ -293,7 +293,7 @@ from tqdm import tqdm
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 # 设置随机种子
-seed = 42
+seed = 42 # 宇宙的答案
 torch.manual_seed(seed)
 random.seed(seed)
 ```
@@ -364,13 +364,15 @@ class PascalVOC(torch.utils.data.Dataset):
             size = (int(size), int(size))
         h, w = image.size[1], image.size[0]
         resize_ratio = (size[0] / w, size[1] / h)
+        # 缩放图片
         image = T.Resize(size)(image)
+        # 缩放边界框
         box_coords[:, 0::2] = (box_coords[:, 0::2] * resize_ratio[0]).int()
         box_coords[:, 1::2] = (box_coords[:, 1::2] * resize_ratio[1]).int()
         return image, box_coords
     
     def __getitem__(self, index):
-        # 判断是使用07年的数据还是12年的数据
+        """判断是使用07年的数据还是12年的数据"""
         data = self.data07 if index < len(self.data07) else self.data12
         index = index if index < len(self.data07) else index - len(self.data07)
         image = data[index][0]
@@ -386,7 +388,10 @@ class PascalVOC(torch.utils.data.Dataset):
                                  box_labels, box_coords), dim=1)
     
     def get_label_list(self, label):
-        """获取图片中物体的类别和真实边界框的xyxy坐标"""
+        """
+        获取图片中物体的类别和真实边界框的xyxy坐标，
+        这部分代码不是很理解的话可以将原始数据集的标签打印出来对照查看。
+        """
         obj_list = label['annotation']['object']
         box_labels = [self.cls_labels.index(obj['name'] if type(obj['name']) == str else obj['name'][0]) for obj in obj_list]
         box_coords = []
@@ -402,8 +407,10 @@ class PascalVOC(torch.utils.data.Dataset):
         """随机水平翻转"""
         if random.random() > 0.5:
             w = image.size[0]
+            # 翻转图片
             image = T.RandomHorizontalFlip(p=1)(image)
             x1, x2 = box_coords[:, 0], box_coords[:, 2]
+            # 翻转边界框
             box_coords[:, 0], box_coords[:, 2] = w - x2, w - x1
         return image, box_coords
     
@@ -423,7 +430,7 @@ class PascalVOC(torch.utils.data.Dataset):
 
 ### 定义预测框的修正方式
 
-![预测框解码方式](../pictures/detection-yolov2-box.jpg)
+![预测框解码方式](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov2-box.jpg)
 
 ```python
 def inv_sigmoid(x):
@@ -461,7 +468,7 @@ class Backbone(nn.Module):
         # YOLO的backbone需要输出三张特征图
         # 三张特征图的下采样率分别为8、16和32
         # module_dict中每个值都是一个包含四个元素的元组
-        # 其中第一个元素是使用torchvision的API取backbone的函数
+        # 其中第一个元素是使用torchvision的API取backbone模型的函数
         # 后三个元素分别是输出为上述三种特征图的网络的三个部分的模块列表
         module_dict = {
             'resnet18': (models.resnet18,
@@ -517,6 +524,7 @@ class Backbone(nn.Module):
         raw_backbone = module_dict[backbone_name][0](pretrained=True)._modules
         if backbone_name[:6] != 'resnet':
             raw_backbone = raw_backbone['features']._modules
+        # 根据模块名获取backbone的三个部分
         self.backbone_ds8  = nn.Sequential(*[raw_backbone[key] for key in module_dict[backbone_name][1]])
         self.backbone_ds16 = nn.Sequential(*[raw_backbone[key] for key in module_dict[backbone_name][2]])
         self.backbone_ds32 = nn.Sequential(*[raw_backbone[key] for key in module_dict[backbone_name][3]])
@@ -553,7 +561,7 @@ class CBL(nn.Sequential):
             nn.LeakyReLU())
 ```
 
-![YOLOv4 网络架构](../pictures/detection-yolov4-archi.jpg)
+![YOLOv4 网络架构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-yolov4-archi.jpg)
 
 ```python
 class FPNBlock(nn.Module):
@@ -932,10 +940,10 @@ def train_yolo(net, cfg):
                             cfg.reg_gain,
                             cfg.neg_thres,
                             cfg.obj_pos_ratio)
-    optimizer = torch.optim.Adam(net.parameters(),
-                                lr=cfg.lr,
-                                weight_decay=cfg.weight_decay,
-                                momentum=0.9)
+    optimizer = torch.optim.SGD(net.parameters(),
+                               lr=cfg.lr,
+                               weight_decay=cfg.weight_decay,
+                               momentum=0.9)
     # 迭代步小于指定步数时，学习率线性增加
     # 超过指定步数后呈指数衰减，衰减速度由cfg.lr_decay_power控制
     warmup_lr = lambda cur_step: warmup_lr_ratio(int(cfg.warmup_steps*cfg.num_epochs*num_batches),
@@ -988,12 +996,12 @@ def train_yolo(net, cfg):
 ```python
 class Configuration:
     def __init__(self):
-        self.version = 'version 8'
+        self.version = 'version 10'
         self.backbone = 'resnet50'
         self.num_classes = 20
-        self.neck_hidden_layers = 1
-        self.head_hidden_layers = 4
-        self.hidden_channels = 128
+        self.neck_hidden_layers = 2
+        self.head_hidden_layers = 2
+        self.hidden_channels = 256
         self.neg_thres = 0.3
         
         self.data_ratio = 1.0
@@ -1007,11 +1015,11 @@ class Configuration:
         self.cls_gain = 3.
         self.reg_gain = 1.
         
-        self.lr = 5e-3
+        self.lr = 1e-2
         self.warmup_steps = 0.1
         self.lr_decay_power = 0.5
-        self.batch_size = 8
-        self.num_epochs = 50
+        self.batch_size = 16
+        self.num_epochs = 100
         self.weight_decay = 0
         self.num_workers = 8
 ```
