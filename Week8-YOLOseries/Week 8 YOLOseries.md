@@ -1,5 +1,14 @@
 # Week 8 YOLO系列
 
+原文地址：
+
+-   [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640)
+-   [YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
+-   [YOLOv3: An Incremental Improvement](https://arxiv.org/abs/1804.02767)
+-   [YOLOv4: Optimal Speed and Accuracy of Object Detection](https://arxiv.org/abs/2004.10934)
+
+上期回顾：[Week 7 RCNN系列](../Week7-RCNNseries/Week 7 RCNNseries.md)
+
 ## 前言
 
 ​		目标检测是深度学习应用于计算机视觉领域最成功的方向之一。目标检测算法可以分为双阶段检测算法和单阶段检测算法。双阶段检测算法先获取各类别通用的候选框以覆盖图像中可能存在的物体，再对候选框进行修正从而得到预测框并进行类别预测；而单阶段检测算法**直接输出预测框与各个预测框对应的类别。**
@@ -87,7 +96,7 @@
 2.   抛弃了YOLOv1的全连接层，从Neck的输出到Head的输出之间的通道维度的变化使用1x1卷积来实现。这一方面带来了更小的参数数量，另一方面导致了有限的感受野；
 3.   引入了Focus结构作为Neck以提升在小目标上的边界框预测质量；具体来说，这个模块以Backbone的倒数第二个阶段的特征图（下采样率为最后一个阶段的二分之一）为输入，逐通道将其分为数个2x2的小方格后，将每个小方格中左上、右上、左下和右下的值分别**在宽高上拼接起来**之后再**在通道维拼接起来**，形成一个宽高为原来一半，但通道数是原来的四倍的一个特征图。
 
-![Focus结构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:%5CWeeklyPaper%5C%E5%9B%BE%E5%BA%8Adetection-focus.jpg)
+![Focus结构](https://cdn.jsdelivr.net/gh/zxh0916/WeeklyPaper_images/G:\图床\WeeklyPaper_imagesdetection-focus.jpg)
 
 代码实现如下：
 

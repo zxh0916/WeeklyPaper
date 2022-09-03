@@ -1,5 +1,14 @@
 #  Week 7 R-CNN系列
 
+原文地址：
+
+-   [Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
+-   [Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition](https://arxiv.org/abs/1406.4729)
+-   [Fast R-CNN](https://arxiv.org/abs/1504.08083)
+-   [Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks](https://arxiv.org/abs/1506.01497)
+
+上期回顾：[Week 6 ViT](../Week6-ViT/Week 6 ViT.md)
+
 代码实现详解见[此处](./Faster R-CNN 代码.md)
 
 ## 一、目标检测任务简介

@@ -233,11 +233,10 @@ $$
 
 ​		多头注意力类似于有多个输出通道的卷积层。回想卷积操作，为了从同一张特征图中提取不同的特征(2D卷积)，或输出长度大于1的向量(1D卷积)，通常需要使用多个卷积核，并将各个卷积核的输出在通道维拼接。多头注意力也是一样，为了**捕捉序列中元素之间的多种依赖关系**，将注意力机制设计成**相互独立的多个"注意力头"**，各自拥有仅属于本头的权重，用权重将输入做线性变换之后输入注意力机制，再将各个头的输出拼接到一起，经过线性变换后输出：
 $$
-\mathrm{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V})=\mathrm{Concat}(\mathrm{head_1},\dots,\mathrm{head_h})W^O
-\\
-\mathrm{where} \ \mathrm{head_i}=\mathrm{Attention}(\mathbf QW_i^Q, \mathbf KW_i^K, \mathbf VW_i^V)
-\\
-\mathbf Q\in\mathbb R^{num\_query\times d_{model}},W_i^Q\in\mathbb R^{d_{model}\times d_k}\\\mathbf K\in\mathbb R^{num\_key\times d_{model}},W_i^K\in\mathbb R^{d_{model}\times d_k}\\\mathbf V\in\mathbb R^{num\_value\times d_{model}},W_i^V\in\mathbb R^{d_{model}\times d_v}
+\mathrm{MultiHeadAttention}(\mathbf Q,\mathbf K,\mathbf V)
+=\mathrm{Concat}\left(\mathrm{softmax}\left(\frac{\mathbf {(QW_i^q)} \mathbf {(KW^k_i)}^\top }{\sqrt{d/num\_heads}}\right) \mathbf {(VW^v_i)}\right)\mathbf {W^o}
+\\\mathrm{where}\ \ \mathbf{Q}\in\mathbb{R}^{n\times d},\mathbf{K}\in\mathbb{R}^{n\times d},\mathbf{V}\in\mathbb{R}^{n\times d_v}\\
+\mathbf{W_i^q}\in\mathbb{R}^{d\times d/num\_heads},\mathbf{W^k_i}\in\mathbb{R}^{d\times d/num\_heads},\mathbf{W^v_i}\in\mathbb{R}^{d\times d/num\_heads}, \mathbf{W_i^o}\in\mathbb{R}^{d\times d}
 $$
 <img src="../pictures/transformer-multi-head-attention.png" alt="多头注意力" style="zoom:50%;" />
 

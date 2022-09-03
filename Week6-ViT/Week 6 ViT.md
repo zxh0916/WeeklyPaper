@@ -1,6 +1,8 @@
 # Week 6 Vision Transformer论文笔记+复现
 
-#### 我不想再做无情的论文翻译机器了
+论文地址：[AN IMAGE IS WORTH 16X16 WORDS: TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE](http://arxiv.org/abs/2010.11929)
+
+上期回顾：[Week 5 Transformer](../Week5-Transformer/Week 5 Transformer.md)
 
 ## 简介
 
